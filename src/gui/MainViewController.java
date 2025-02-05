@@ -33,7 +33,7 @@ public class MainViewController implements Initializable {// essa classe ira con
 	}
 
 	@FXML
-	public void onMenuItemDepartmentAction() {// esse metodo ira tratar os eventos do department
+	public void onMenuItemDepartmentAction() {
 		loadView("/gui/DepartmentList.fxml", (DepartmentListController controller) -> {
 			controller.setDepartmentService(new DepartmentService());
 			controller.updateTableView();
@@ -49,7 +49,7 @@ public class MainViewController implements Initializable {// essa classe ira con
 	public void initialize(URL uri, ResourceBundle rb) {// esse metodo é da interface Initializable
 	}
 
-	private synchronized <T> void loadView(String absoluteName, Consumer<T> initializinAction) {// synchronized esta garantindo que a aplicação não tenha
+	private synchronized <T> void loadView(String absoluteName, Consumer<T> initializingAction) {// synchronized esta garantindo que a aplicação não tenha
 																// nenhuma interrupção
 																//também esta sendo feito uma parametrização com o Consumer T.
 		try {
@@ -67,7 +67,7 @@ public class MainViewController implements Initializable {// essa classe ira con
 			mainVBox.getChildren().addAll(newVBox.getChildren());
 			
 			T controller = loader.getController();
-			initializinAction.accept(controller);//aqui esta sendo chamado a função que foi criada no Department
+			initializingAction.accept(controller);//aqui esta sendo chamado a função que foi criada no Department
 
 		} catch (IOException e) {// aqui esta sendo tratado uma possivel exceção
 			Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
