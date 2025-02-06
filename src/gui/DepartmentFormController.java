@@ -1,10 +1,12 @@
 package gui;
 
 import java.net.URL;
-import java.nio.channels.IllegalSelectorException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import db.DbException;
+import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Constraints;
 import gui.util.Utils;
@@ -23,6 +25,8 @@ public class DepartmentFormController implements Initializable {
 	private Department entity;
 
 	private DepartmentService service;
+	
+	private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
 
 	@FXML
 	private TextField txtId;
@@ -46,6 +50,10 @@ public class DepartmentFormController implements Initializable {
 	public void setDepartmentService(DepartmentService service) {
 		this.service = service;
 	}
+	
+	public void subscribeDataChangeListener(DataChangeListener listener) {
+		dataChangeListeners.add(listener);
+	}
 
 	@FXML
 	public void OnBtSavaAction(ActionEvent event) {// metodo para os eventos do botão save
@@ -58,11 +66,19 @@ public class DepartmentFormController implements Initializable {
 		try {
 			entity = getFormData();
 			service.saveOrUpdate(entity);// aqui esta salvando os dados
+			notifyDataChageListeners();//aqui esta notoficando os listeners
 			Utils.currentStage(event).close();//aqui esta fechando a janela após inserir um novo departamento
 		} 
 		catch (DbException e) {
 			Alerts.showAlert("Error saving object", null, e.getMessage(), AlertType.ERROR);
 		}
+	}
+
+	private void notifyDataChageListeners() {//aqui é o metodo para notificar chamado da interface datachagelistener ondatachanged
+			for (DataChangeListener listener : dataChangeListeners) {
+			listener.onDataChanged();
+		}
+		
 	}
 
 	private Department getFormData() {// metodo para salvar os valores no formulario

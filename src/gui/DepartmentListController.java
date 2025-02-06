@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
+import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
 import javafx.collections.FXCollections;
@@ -26,7 +27,7 @@ import javafx.stage.Stage;
 import model.entities.Department;
 import model.services.DepartmentService;
 
-public class DepartmentListController implements Initializable {// essa classe ira controlar os eventos do
+public class DepartmentListController implements Initializable, DataChangeListener {// essa classe ira controlar os eventos do
 																// Departmentlist
 
 	private DepartmentService service;
@@ -90,6 +91,7 @@ public class DepartmentListController implements Initializable {// essa classe i
 			DepartmentFormController controller = loader.getController();
 			controller.setDepartment(obj);//aqui esta carregando o obj no formulario
 			controller.setDepartmentService(new DepartmentService());//aqui esta injetando a dependencia do service para o botam save
+			controller.subscribeDataChangeListener(this);//aqui esta recendo o evento dataChange
 			controller.updateFormData();
 			
 			Stage dialogStage = new Stage();
@@ -105,6 +107,12 @@ public class DepartmentListController implements Initializable {// essa classe i
 		catch(IOException e) {
 			Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
 		}
+		
+	}
+
+	@Override
+	public void onDataChanged() {//aqui esta sendo executado o metodo para receber o evento qundo for disparado.
+		updateTableView();
 		
 	}
 	
