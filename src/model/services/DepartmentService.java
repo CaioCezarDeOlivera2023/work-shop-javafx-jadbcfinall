@@ -16,5 +16,12 @@ public class DepartmentService {
 		return dao.findAll();		
 	}
 	
-
+	public void saveOrUpdate(Department obj) {
+		if(obj.getId() == null) {//aqui esta sendo inserido ou atulizando os dados
+			dao.insert(obj);
+		}else {
+			dao.update(obj);
+		}
+	}
+	
 }
