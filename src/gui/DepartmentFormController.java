@@ -94,7 +94,7 @@ public class DepartmentFormController implements Initializable {
 		
 		obj.setId(Utils.tryParsetoInt(txtId.getText()));// aqui esta convertendo o valor para inteiro e caso não tiver
 														// valo ro mesmo sera nulo
-		if (txtName.getText() == null || txtName.getText().trim().equals("")) {//aqui esta uma possivel exceção
+		if (txtName.getText() == null || txtName.getText().trim().equals("")) {//aqui esta uma possivel exceção caso o campo name esteja vasio
 			exception.addError("name", "Field can't be empty");
 		}
 		obj.setName(txtName.getText());
@@ -135,7 +135,7 @@ public class DepartmentFormController implements Initializable {
 	private void setErrorMessages(Map<String, String> errors) {
 		Set<String> fields = errors.keySet();
 		
-		if(fields.contains("name")) {
+		if(fields.contains("name")) {//fazendo a verificação se o campo name esta vazio 
 			labelErroName.setText(errors.get("name"));
 		}
 	}
