@@ -31,6 +31,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Seller;
+import model.services.DepartmentService;
 import model.services.SellerService;
 
 public class SellerListController implements Initializable, DataChangeListener {// essa classe ira controlar os
@@ -124,8 +125,9 @@ public class SellerListController implements Initializable, DataChangeListener {
 
 			SellerFormController controller = loader.getController();
 			controller.setSeller(obj);// aqui esta carregando o obj no formulario
-			controller.setSellerService(new SellerService());// aqui esta injetando a dependencia do service
+			controller.setServices(new SellerService(), new DepartmentService());// aqui esta injetando a dependencia do service
 																		// para o botam save
+			controller.loadAssosiatedObjescts();
 			controller.subscribeDataChangeListener(this);// aqui esta recendo o evento dataChange
 			controller.updateFormData();
 
@@ -138,6 +140,7 @@ public class SellerListController implements Initializable, DataChangeListener {
 			dialogStage.showAndWait();
 
 		} catch (IOException e) {
+			e.printStackTrace();
 			Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
 		}
 
@@ -192,7 +195,7 @@ public class SellerListController implements Initializable, DataChangeListener {
 		
 		if (result.get() == ButtonType.OK) {
 			if (service == null) {//promação defenciva para uma posivel exceção caso o valor for nulo
-				throw new IllegalStateException("Service wa null");
+				throw new IllegalStateException("Service was null");
 			}
 			try {
 			service.romeve(obj);
