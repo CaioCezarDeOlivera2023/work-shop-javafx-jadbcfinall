@@ -28,6 +28,15 @@ public class Utils {
 			return null;
 		}
 	}
+	
+	public static Double tryParsetoDouble(String str) {// aqui esta convertendo um dado da caixa para String
+		try {// trando uma possivel exceção.
+
+			return Double.parseDouble(str);
+		} catch (NumberFormatException e) {
+			return null;
+		}
+	}
 
 	public static <T> void formatTableColumnDate(TableColumn<T, Date> tableColumn, String format) {// aqui esta
 																									// formatando a data
