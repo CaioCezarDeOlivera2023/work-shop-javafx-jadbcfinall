@@ -145,7 +145,7 @@ public class SellerFormController implements Initializable {
 		Constraints.setTextFieldMaxLength(txtName, 70);
 		Constraints.setTextFieldDouble(txtbaseSalary);
 		Constraints.setTextFieldMaxLength(txtEmail, 60);
-		Utils.formatDatePicker(dpBirthDate, "DD/MM/yyyy");
+		Utils.formatDatePicker(dpBirthDate, "dd/MM/yyyy");
 		
 	}
 
