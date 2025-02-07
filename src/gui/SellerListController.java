@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -24,6 +27,8 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Seller;
 import model.services.SellerService;
@@ -88,7 +93,7 @@ public class SellerListController implements Initializable, DataChangeListener {
 		tableColumnBirthDate.setCellValueFactory(new PropertyValueFactory<>("birthDate"));// aqui esta iniciando o comportamenta da coluna birthDate
 		Utils.formatTableColumnDate(tableColumnBirthDate, "dd/MM/yyyy");//aqui esta sendo configurado a data
 		tableColumnBaseSalary.setCellValueFactory(new PropertyValueFactory<>("baseSalary"));//aqui esta sendo iniciado o comportamento da coluna baseSalary
-		Utils.formatTableColumnDouble(tableColumnBaseSalary, 2);//aqui esta sendo configurado com 2 casa decimais
+		Utils.formatTableColumnDouble(tableColumnBaseSalary, 2);//aqui esta sendo configurado com 2 c
 		
 
 		Stage stage = (Stage) Main.getMainScene().getWindow();// aqui esta configurando o alinhamento da tabela,
@@ -112,29 +117,29 @@ public class SellerListController implements Initializable, DataChangeListener {
 	}
 
 	private void createDialogForm(Seller obj, String absoluteName, Stage parentStage) {
-//		try {// essa função esta sendo para carregar a janela formulario para preencher o
-//				// novo departamento
-//			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
-//			Pane pane = loader.load();
-//
-//			SellerFormController controller = loader.getController();
-//			controller.setSeller(obj);// aqui esta carregando o obj no formulario
-//			controller.setSellerService(new SellerService());// aqui esta injetando a dependencia do service
-//																		// para o botam save
-//			controller.subscribeDataChangeListener(this);// aqui esta recendo o evento dataChange
-//			controller.updateFormData();
-//
-//			Stage dialogStage = new Stage();
-//			dialogStage.setTitle("Enter Seller Data");
-//			dialogStage.setScene(new Scene(pane));
-//			dialogStage.setResizable(false);
-//			dialogStage.initOwner(parentStage);
-//			dialogStage.initModality(Modality.WINDOW_MODAL);
-//			dialogStage.showAndWait();
-//
-//		} catch (IOException e) {
-//			Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
-//		}
+		try {// essa função esta sendo para carregar a janela formulario para preencher o
+				// novo departamento
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+			Pane pane = loader.load();
+
+			SellerFormController controller = loader.getController();
+			controller.setSeller(obj);// aqui esta carregando o obj no formulario
+			controller.setSellerService(new SellerService());// aqui esta injetando a dependencia do service
+																		// para o botam save
+			controller.subscribeDataChangeListener(this);// aqui esta recendo o evento dataChange
+			controller.updateFormData();
+
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Enter Seller Data");
+			dialogStage.setScene(new Scene(pane));
+			dialogStage.setResizable(false);
+			dialogStage.initOwner(parentStage);
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.showAndWait();
+
+		} catch (IOException e) {
+			Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
+		}
 
 	}
 
