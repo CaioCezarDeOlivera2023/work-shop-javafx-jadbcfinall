@@ -24,4 +24,8 @@ public class DepartmentService {
 		}
 	}
 	
+	public void romeve(Department obj) {//aqui esta removendo um departamento do banco de dados
+		dao.deleteById(obj.getId());
+	}
+	
 }
